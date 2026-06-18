@@ -45,31 +45,35 @@ from typing import List
 
 
 def mcd(a: int, b: int) -> int:
-    while b:
-        
+    # algoritmo de euclides
+    while b != 0:
+        resto = b
+        b = a % b
+        a = resto
     return a
 
 
 def mcd_list(numbers: List[int]) -> int:
-    result = 
+    res = numbers[0]
     for number in numbers[1:]:
-        result = 
-    return result
+        res = mcd(res, number)
+    return res
 
 
 def mcm(a: int, b: int) -> int:
-    return 
+    # mcm = a*b / mcd(a,b)
+    return (a * b) // mcd(a, b)
 
 
 def mcm_list(numbers: List[int]) -> int:
-    result = 
+    res = numbers[0]
     for number in numbers[1:]:
-        result = 
-    return result
+        res = mcm(res,number)
+    return res
 
 
 # Para probar el código, descomenta las siguientes líneas
-# if __name__ == "__main__":
-    # numbers = [4, 6]
-    # print(f"The MCD of {numbers} is {mcd_list(numbers)}.")
-    # print(f"The MCM of {numbers} is {mcm_list(numbers)}.")
+#if __name__ == "__main__":
+#    numbers = [4, 6]
+#    print(f"The MCD of {numbers} is {mcd_list(numbers)}.")
+#    print(f"The MCM of {numbers} is {mcm_list(numbers)}.")
