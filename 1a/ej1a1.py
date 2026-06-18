@@ -9,7 +9,7 @@ Las funciones y operaciones a desarrollar son:
 utilizando UTF-8.
 - Revertir el orden de los bytes: reverse_bytes(bytes_data: ByteString) -> bytearray, toma una secuencia de bytes
 y devuelve un bytearray con el orden de los bytes invertido.
-- Incrementar el valor de cada byte con posible desbordamiento: 
+- Incrementar el valor de cada byte con posible desbordamiento:
 increment_bytearray_rollover(byte_array: bytearray) -> bytearray, incrementa en 1 el valor de cada byte, volviendo a
 0 si se supera el valor máximo de un byte (255).
 - Decodificar bytes a texto: bytes_to_text(bytes_data: Union[bytes, bytearray]) -> str, toma una secuencia de bytes
@@ -37,27 +37,39 @@ from typing import ByteString, Union
 
 
 def text_to_bytes(text: str) -> bytes:
-    # Write here your code
-    pass
+    # convertimos el texto a bytes con utf-8
+    resultado = text.encode("utf-8")
+    return resultado
 
 
 def reverse_bytes(bytes_data: ByteString) -> bytearray:
-    # Write here your code
-    pass
+    # invertimos el orden de los bytes
+    arr = bytearray(bytes_data)
+    invertido = bytearray()
+    i = len(arr) - 1
+    while i >= 0:
+        invertido.append(arr[i])
+        i = i-1
+    return invertido
 
 
 def increment_bytearray_rollover(byte_array: bytearray) -> bytearray:
-    # Write here your code
-    pass
+    resultado = bytearray()
+    for b in byte_array:
+        nuevo = b + 1
+        # si supera 255 volvemos a 0
+        if nuevo > 255:
+            nuevo = 0
+        resultado.append(nuevo)
+    return resultado
 
 
 def bytes_to_text(bytes_data: Union[bytes, bytearray]) -> str:
-    # Write here your code
-    pass
+    return bytes_data.decode("utf-8")
 
 
 # Para probar el código, descomenta las siguientes líneas
-# if __name__ == "__main__":
+#   if __name__ == "__main__":
 #     original_text = "Hola Mundo!"
 #     original_bytes = text_to_bytes(original_text)
 #     print("Original Bytes:", original_bytes)

@@ -1,7 +1,7 @@
 """
 Enunciado:
 Desarrolla un sistema de inventario simple para una tienda, utilizando `dataclasses` para modelar los productos y un
-diccionario para mantener el inventario. 
+diccionario para mantener el inventario.
 
 Funciones a desarrollar:
 - `add_product(name: str, category: str, quantity: int, price: float) -> Product`:
@@ -18,7 +18,7 @@ Funciones a desarrollar:
     Descripción:
     Genera y retorna una cadena de texto que lista todos los productos en el inventario, mostrando su nombre,
     categoría, cantidad y precio.
-    
+
 - `find_product(name: str, category: str) -> Optional[Product]`:
     Descripción:
     Busca en el inventario un producto por su nombre y categoría. Retorna el producto si se encuentra, o `None` si no
@@ -30,7 +30,7 @@ Funciones a desarrollar:
 Ejemplo:
     add_product("Apples", "Fruits", 100, 0.50)
     add_product("Pears", "Fruits", 50, 0.70)
-    add_product("Apples", "Fruits", 50, 0.55) 
+    add_product("Apples", "Fruits", 50, 0.55)
 
 Salida esperada:
 - Creación y actualización de productos en el inventario mediante una lista detallada de todos los productos, con sus
@@ -49,35 +49,36 @@ class Product:
     category: str
     quantity: int
     price: float
-    
+
 
 inventory: Dict[Tuple[str, str], Product] = {}
 
 
 def add_product(name: str, category: str, quantity: int, price: float) -> Product:
-    # Complete the code
-    pass
-    key = (name, category)
-    if key in :
-        existing_product = 
-        existing_product. += 
-        existing_product. = 
+    clave = (name, category)
+    if clave in inventory:
+        # si ya existe actualizamos cantidad y precio
+        p = inventory[clave]
+        p.quantity = p.quantity + quantity
+        p.price = price
     else:
-         = Product
-    return 
+        inventory[clave] = Product(name, category, quantity, price)
+    return inventory[clave]
 
 
 def list_products() -> str:
-    # Complete the code
-    pass
-    for product in :
-            (f"{product.name} ({product.category}) - {product.quantity} units at ${product.price} each")
-        return
+    lineas = []
+    for clave in inventory:
+        p = inventory[clave]
+        lineas.append(f"{p.name} ({p.category}) - {p.quantity} units at ${p.price} each")
+    return "\n".join(lineas)
 
 
 def find_product(name: str, category: str) -> Optional[Product]:
-    # Write here your code
-    pass
+    clave = (name, category)
+    if clave in inventory:
+        return inventory[clave]
+    return None
 
 
 # Para probar el código, descomenta las siguientes líneas

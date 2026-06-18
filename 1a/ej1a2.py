@@ -35,7 +35,7 @@ Funciones a desarrollar:
 Ejemplo:
 
     event1 = create_event("Global Meeting", datetime(2024, 9, 10, 10, 0), "UTC")
-    
+
     time_to_event = time_until_event(event)
     print(f"Time until '{event['name']}':", time_to_event)
 
@@ -66,27 +66,64 @@ import pytz
 
 
 def create_event(name: str, datetime_start: datetime, timezone_str: str) -> Dict[str, str]:
-    # Write here your code
-    pass
+    # creamos el evento con su zona horaria
+    tz = pytz.timezone(timezone_str)
+    dt_con_tz = tz.localize(datetime_start)
+    evento = {
+        "name": name,
+        "datetime_start": dt_con_tz,
+        "timezone": timezone_str
+    }
+    return evento
 
 
 def time_until_event(event: Dict[str, str]) -> timedelta:
-    # Write here your code
-    pass
+    # calculamos cuanto falta para el evento
+    ahora = datetime.now(pytz.utc)
+    inicio = event["datetime_start"]
+    # convertimos a utc si tiene zona horaria
+    if inicio.tzinfo is not None:
+        inicio_utc = inicio.astimezone(pytz.utc)
+    else:
+        inicio_utc = pytz.utc.localize(inicio)
+    diferencia = inicio_utc - ahora
+    return diferencia
 
 
 def change_event_timezone(event: Dict[str, str], new_timezone_str: str) -> Dict[str, str]:
-    # Write here your code
-    pass
+    nueva_tz = pytz.timezone(new_timezone_str)
+    dt_actual = event["datetime_start"]
+    dt_nueva = dt_actual.astimezone(nueva_tz)
+    nuevo_evento = {
+        "name": event["name"],
+        "datetime_start": dt_nueva,
+        "timezone": new_timezone_str
+    }
+    return nuevo_evento
 
 
 def find_next_event(events: List[Dict[str, str]]) -> Optional[Dict[str, str]]:
-    # Write here your code
-    pass
+    ahora = datetime.now(pytz.utc)
+    proximo = None
+    for evento in events:
+        inicio = evento["datetime_start"]
+        if inicio.tzinfo is not None:
+            inicio_utc = inicio.astimezone(pytz.utc)
+        else:
+            inicio_utc = pytz.utc.localize(inicio)
+        # solo los eventos futuros nos interesan
+        if inicio_utc > ahora:
+            if proximo is None:
+                proximo = evento
+            else:
+                proximo_inicio = proximo["datetime_start"].astimezone(pytz.utc)
+                if inicio_utc < proximo_inicio:
+                    proximo = evento
+    return proximo
 
 
 # Para probar el código, descomenta las siguientes líneas
-# if __name__ == "__main__":
+## if __name__ == "__main__":
 #     event1 = create_event("Global Meeting", datetime(2024, 9, 10, 10, 0), "UTC")
 #     event2 = create_event("Python Talk", datetime(2024, 9, 10, 18, 30), "America/New_York")
 #     event3 = create_event("Data Science Workshop", datetime(2024, 9, 10, 12, 0), "Europe/London")

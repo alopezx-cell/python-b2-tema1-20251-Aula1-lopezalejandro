@@ -56,30 +56,37 @@ class Task(NamedTuple):
     id: int
     title: str
     status: TaskStatus
-    
-    
+
+
 tasks: Dict[int, Task] = {}
 
 
 def create_task(title: str) -> int:
-    # Write here your code
-    pass
+    # el id es el siguiente numero disponible
+    nuevo_id = len(tasks) + 1
+    tasks[nuevo_id] = Task(nuevo_id, title, TaskStatus.PENDING)
+    return nuevo_id
 
 
 def change_task_status(task_id: int, new_status: TaskStatus) -> bool:
-    # Write here your code
-    pass
+    if task_id not in tasks:
+        return False
+    tarea_vieja = tasks[task_id]
+    # NamedTuple es inmutable, hay que crear una nueva
+    tasks[task_id] = Task(tarea_vieja.id, tarea_vieja.title, new_status)
+    return True
 
 
 def list_tasks() -> None:
-    # Write here your code
-    pass
+    for task_id in tasks:
+        t = tasks[task_id]
+        print(f"ID: {t.id}, Title: {t.title}, Status: {t.status.value}")
 
 
-# Para probar el código, descomenta las siguientes líneas 
-# if __name__ == "__main__":
+# Para probar el código, descomenta las siguientes líneas
+ # if __name__ == "__main__":
 #     id1 = create_task("Learn Python")
 #     id2 = create_task("Read Enum documentation")
-#     change_task_status(id1, TaskStatus.IN_PROGRESS)
+ #     change_task_status(id1, TaskStatus.IN_PROGRESS)
 #     change_task_status(id2, TaskStatus.COMPLETED)
 #     list_tasks()
